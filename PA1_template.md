@@ -56,7 +56,7 @@ Avg_5min_steps<-aggregate(steps~interval, data=Value_data, mean)
 plot(Avg_5min_steps$interval,Avg_5min_steps$steps, type="l",col="blue", main="steps per 5 minute interval",ylab="Steps",xlab="Interval")
 ```
 
-![plot of chunk plot_interval](figure/plot_interval-1.png)
+![plot of chunk plotinterval](figure/plotinterval-1.png)
 
 #### 3. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -98,7 +98,7 @@ Sum_day_newdata<-aggregate(steps.x~date, data=Imputed_data, sum)
 hist(Sum_day_newdata$steps.x, main="Frequency of Steps per day", xlab="Steps per Day", border="blue", col="grey",breaks = 20)
 ```
 
-![plot of chunk new_hist](figure/new_hist-1.png)
+![plot of chunk newhist](figure/newhist-1.png)
 
 #### 5. Calculate the new mean and median of the steps per day
 
@@ -131,5 +131,5 @@ ggplot(Avg_steps_dateType,aes(interval,steps.x))+
     ylab("avarage number of steps")
 ```
 
-![plot of chunk plot_Avg_dateType](figure/plot_Avg_dateType-1.png)
+![plot of chunk plotAvgdateType](figure/plotAvgdateType-1.png)
 

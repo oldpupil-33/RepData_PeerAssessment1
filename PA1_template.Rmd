@@ -23,7 +23,7 @@ Value_data<-subset(Raw_data, !is.na(Raw_data))
 ```
 
 #### 2.Sum the number of steps per day
-```{r summarize/day}
+```{r summarizeday}
 Sum_day_data<-aggregate(steps~date, data=Value_data, sum)
 ```
 
@@ -34,7 +34,7 @@ hist(Sum_day_data$steps, main="Frequency of Steps per day", xlab="Steps per Day"
 
 ## What is the mean total number of steps taken per day?
 #### 1. Calculate the mean and median of the steps per day
-```{r means_steps/day}
+```{r meansstepsday}
 Mean_day_steps<-mean(Sum_day_data$steps)
 Median_day_steps<-median(Sum_day_data$steps)
 ```
@@ -44,17 +44,17 @@ Median_day_steps<-median(Sum_day_data$steps)
 ## What is the average daily activity pattern?
 
 #### 1. Get the average steps per 5 minute interval
-```{r Avg_5min_steps}
+```{r Avg5minsteps}
 Avg_5min_steps<-aggregate(steps~interval, data=Value_data, mean)
 ```
 
 #### 2. Make a time series plot
-```{r plot_interval}
+```{r plotinterval}
 plot(Avg_5min_steps$interval,Avg_5min_steps$steps, type="l",col="blue", main="steps per 5 minute interval",ylab="Steps",xlab="Interval")
 ```
 
 #### 3. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
-```{r max_interval}
+```{r maxinterval}
 Max_interval_steps <- Avg_5min_steps$interval[which.max(Avg_5min_steps$steps)]
 ```
 * The most steps at interval:`r Max_interval_steps`
@@ -78,20 +78,20 @@ Imputed_data <-merge(Raw_data, Avg_5min_steps,by="interval")
 
 #### 3. Create a new dataset that is equal to the original but with the miss data replace NA values with mean of steps values for that time interval.
 
-```{r replace_na}
+```{r replacena}
   Nas_data<-which(is.na(Imputed_data$steps.x))
   Imputed_data$steps.x[Nas_data]<-Imputed_data$steps.y[Nas_data]
 ```
 
 #### 4. Create a histogram of the new dataset.
 
-```{r new_hist}
+```{r newhist}
 Sum_day_newdata<-aggregate(steps.x~date, data=Imputed_data, sum)
 hist(Sum_day_newdata$steps.x, main="Frequency of Steps per day", xlab="Steps per Day", border="blue", col="grey",breaks = 20)
 ```
 
 #### 5. Calculate the new mean and median of the steps per day
-```{r new_means_steps/day}
+```{r newmeansstepsday}
 Mean_steps_new<-mean(Sum_day_newdata$steps.x)
 Median_steps_new<-median(Sum_day_newdata$steps.x)
 ```
@@ -102,13 +102,13 @@ Median_steps_new<-median(Sum_day_newdata$steps.x)
 ## Are there differences in activity patterns between weekdays and weekends?
 #### 1. Create a new factor variable in the dataset with two levels-"weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
 
-```{r dateType_factor}
+```{r dateTypefactor}
 Imputed_data$dateType <-  ifelse(as.POSIXlt(Imputed_data$date)$wday %in% c(0,6),'weekend','weekday')
 ```
 
 #### 2. Make a panel plot containing a time series plot
 
-```{r plot_Avg_dateType}
+```{r plotAvgdateType}
 Avg_steps_dateType <- aggregate(steps.x ~ interval + dateType,data = Imputed_data,mean)
 
 ggplot(Avg_steps_dateType,aes(interval,steps.x))+
